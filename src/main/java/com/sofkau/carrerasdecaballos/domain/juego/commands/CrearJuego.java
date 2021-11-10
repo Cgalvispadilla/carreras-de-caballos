@@ -9,13 +9,13 @@ import java.util.Map;
 
 public class CrearJuego extends Command {
     private JuegoID juegoID;
-    private Kilometros kilometros;
+    private Integer kilometros;
     private Map<String, String> jugadores;
 
     public CrearJuego() {
     }
 
-    public CrearJuego(Kilometros kilometros, Map<String, String> jugadores) {
+    public CrearJuego(Integer kilometros, Map<String, String> jugadores) {
         this.kilometros = kilometros;
         this.jugadores = jugadores;
     }
@@ -28,11 +28,11 @@ public class CrearJuego extends Command {
         this.juegoID = juegoID;
     }
 
-    public Kilometros getKilometros() {
+    public Integer getKilometros() {
         return kilometros;
     }
 
-    public void setKilometros(Kilometros kilometros) {
+    public void setKilometros(Integer kilometros) {
         this.kilometros = kilometros;
     }
 

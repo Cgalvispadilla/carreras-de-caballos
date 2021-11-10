@@ -9,7 +9,7 @@ public class Kilometros implements ValueObject<Integer> {
     private Integer value;
 
     public Kilometros(Integer value) {
-        Objects.requireNonNull(value);
+
         this.value = value;
     }
 

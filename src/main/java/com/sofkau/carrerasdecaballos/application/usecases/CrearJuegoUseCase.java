@@ -51,8 +51,9 @@ public class CrearJuegoUseCase implements Function<CrearJuego, List<DomainEvent>
 
     @Override
     public List<DomainEvent> apply(CrearJuego crearJuego) {
-        generadorDeCarriles(crearJuego.getJugadores().size(), crearJuego.getKilometros().value());
-        var juego = new Juego(juegoID, new Pista(new PistaID(), carrilIDS, new Kilometros(crearJuego.getKilometros().value())));
+        System.out.println(crearJuego.getJugadores().size()+" "+ crearJuego.getKilometros());
+        generadorDeCarriles(crearJuego.getJugadores().size(), crearJuego.getKilometros());
+        var juego = new Juego(juegoID, new Pista(new PistaID(), carrilIDS, new Kilometros(crearJuego.getKilometros())));
 
         crearJuego.getJugadores().forEach((key, value) -> {
             juego.crearJugador(new JugadorID(), new Nombre(value));

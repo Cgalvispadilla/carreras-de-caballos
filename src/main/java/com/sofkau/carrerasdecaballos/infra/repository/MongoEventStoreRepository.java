@@ -1,6 +1,5 @@
 package com.sofkau.carrerasdecaballos.infra.repository;
 
-
 import com.mongodb.Function;
 import com.mongodb.client.MongoClient;
 import com.sofkau.carrerasdecaballos.domain.generic.DomainEvent;
@@ -10,10 +9,7 @@ import com.sofkau.carrerasdecaballos.infra.generic.EventSerializer;
 import org.bson.Document;
 
 import javax.enterprise.context.ApplicationScoped;
-
 import java.util.*;
-
-
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -22,13 +18,12 @@ public class MongoEventStoreRepository implements EventStoreRepository {
     private final MongoClient mongoClient;
 
     public MongoEventStoreRepository(MongoClient mongoClient){
-         this.mongoClient = mongoClient;
+        this.mongoClient = mongoClient;
     }
     @Override
     public List<DomainEvent> getEventsBy(String aggregateName, String aggregateRootId) {
         List<DomainEvent> events = new ArrayList<>();
-        //TODO: ordenar por fecha
-         mongoClient.getDatabase("command")
+        mongoClient.getDatabase("command")
                 .getCollection(aggregateName)
                 .find(eq("aggregateId", aggregateRootId))
                 .map((Function<Document, DomainEvent>) document -> {
@@ -44,6 +39,8 @@ public class MongoEventStoreRepository implements EventStoreRepository {
         return events;
     }
 
+
+
     @Override
     public void saveEvent(String aggregateName, String aggregateRootId, StoredEvent storedEvent) {
         Map<String, Object> document = new HashMap<>();
@@ -56,4 +53,5 @@ public class MongoEventStoreRepository implements EventStoreRepository {
 
         mongoClient.getDatabase("command").getCollection(aggregateName).insertOne(new Document(document));
     }
+
 }

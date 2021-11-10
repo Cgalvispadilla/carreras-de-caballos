@@ -9,7 +9,6 @@ public class Nombre implements ValueObject<String> {
     private String value;
 
     public Nombre(String value) {
-        Objects.requireNonNull(value);
         this.value = value;
     }
 

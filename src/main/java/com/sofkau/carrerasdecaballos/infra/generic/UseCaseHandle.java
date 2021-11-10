@@ -5,7 +5,7 @@ package com.sofkau.carrerasdecaballos.infra.generic;
 import com.sofkau.carrerasdecaballos.domain.generic.DomainEvent;
 import com.sofkau.carrerasdecaballos.domain.generic.EventStoreRepository;
 import com.sofkau.carrerasdecaballos.domain.generic.StoredEvent;
-import com.sofkau.carrerasdecaballos.infra.message.BusService;
+import com.sofkau.carrerasdecaballos.infra.message.MessageService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -18,7 +18,7 @@ public abstract class UseCaseHandle {
     private EventStoreRepository repository;
 
     @Inject
-    private BusService busService;;
+    private MessageService messageService;;
 
     public void saveGame(String gameId, List<DomainEvent> events) {
         events.stream().map(event -> {
@@ -26,6 +26,6 @@ public abstract class UseCaseHandle {
             return new StoredEvent(event.getClass().getTypeName(), new Date(), eventBody);
         }).forEach(storedEvent -> repository.saveEvent("game", gameId, storedEvent));
 
-        events.forEach(busService::send);
+        events.forEach(messageService::send);
     }
 }

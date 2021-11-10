@@ -11,7 +11,7 @@ public class Jinete implements ValueObject<String> {
 
 
     public Jinete(String jinete) {
-        Objects.requireNonNull(jinete);
+
         this.jinete = jinete;
     }
 

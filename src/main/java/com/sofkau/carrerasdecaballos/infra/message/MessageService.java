@@ -3,11 +3,12 @@ package com.sofkau.carrerasdecaballos.infra.message;
 
 import com.rabbitmq.client.*;
 import com.sofkau.carrerasdecaballos.domain.generic.DomainEvent;
-import com.sofkau.carrerasdecaballos.infra.entrypoint.SocketService;
+import com.sofkau.carrerasdecaballos.infra.generic.CommandSerializer;
 import com.sofkau.carrerasdecaballos.infra.generic.EventSerializer;
 import io.quarkiverse.rabbitmqclient.RabbitMQClient;
 import io.quarkus.runtime.StartupEvent;
 import io.vertx.mutiny.core.eventbus.EventBus;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -16,19 +17,18 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 
 @ApplicationScoped
-public class BusService {
+public class MessageService {
     private static final String EXCHANGE = "executor";
+    private static final String EXECUTOR_QUEUE = "executor.queue";
     private static final String EVENT_QUEUE = "event.queue";
-
+    private static final Logger LOG = Logger.getLogger(MessageService.class);
     private final EventBus bus;
     private final RabbitMQClient rabbitMQClient;
-    //private final SocketService socket;
 
     private Channel channel;
 
-    public BusService(EventBus bus, RabbitMQClient rabbitMQClient) {
+    public MessageService(EventBus bus, RabbitMQClient rabbitMQClient) {
         this.bus = bus;
-        //this.socket = socket;
         this.rabbitMQClient = rabbitMQClient;
     }
 
@@ -36,11 +36,14 @@ public class BusService {
         Connection connection = rabbitMQClient.connect();
         channel = connection.createChannel();
         channel.exchangeDeclare(EXCHANGE, BuiltinExchangeType.TOPIC, true);
-
+        //for command
+        channel.queueDeclare(EXECUTOR_QUEUE, true, false, false, null);
+        channel.queueBind(EXECUTOR_QUEUE, EXCHANGE, "executor-command");
         //for event
         channel.queueDeclare(EVENT_QUEUE, true, false, false, null);
         channel.queueBind(EVENT_QUEUE, EXCHANGE, "trigger-event");
 
+        channel.basicConsume(EXECUTOR_QUEUE, true, setupReceivingForCommand());
         channel.basicConsume(EVENT_QUEUE, true, setupReceivingForEvent());
     }
 
@@ -50,10 +53,10 @@ public class BusService {
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                 var message = new String(body, StandardCharsets.UTF_8);
                 try {
+                    LOG.info("publish event...");
                     var event = EventSerializer.instance()
                             .deserialize(message, Class.forName(properties.getContentType()));
                     bus.publish(event.getType(), event);
-                   // socket.send(event.getCorrelationId(), event);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -62,7 +65,38 @@ public class BusService {
     }
 
 
+    private DefaultConsumer setupReceivingForCommand() {
+        return new DefaultConsumer(channel) {
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                var message = new String(body, StandardCharsets.UTF_8);
+
+                try {
+                    LOG.info("publish command...");
+                    var command = CommandSerializer.instance()
+                            .deserialize(message, Class.forName(properties.getContentType()));
+                    bus.publish(command.getType(), command);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+    }
+
+    public void send(Command command) {
+        LOG.info("Send command...");
+        try {
+            var message = CommandSerializer.instance().serialize((com.sofkau.carrerasdecaballos.domain.generic.Command) command);
+            var props = new AMQP.BasicProperties.Builder().contentType(command.getClass().getTypeName()).build();
+            channel.basicPublish(EXCHANGE, "executor-command", props, message.getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
     public void send(DomainEvent event) {
+        LOG.info("Send event...");
         try {
             var message = EventSerializer.instance().serialize(event);
             var props = new AMQP.BasicProperties.Builder().contentType(event.getClass().getTypeName()).build();

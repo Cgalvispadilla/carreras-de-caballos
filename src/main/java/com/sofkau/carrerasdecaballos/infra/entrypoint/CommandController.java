@@ -21,6 +21,7 @@ public class CommandController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/createGame")
     public Response executor(CrearJuego command){
+        System.out.println(command.getJugadores().size()+ " " + command.getKilometros());
         bus.publish(command.getType(), command);
         return  Response.ok().build();
     }

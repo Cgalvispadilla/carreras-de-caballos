@@ -9,7 +9,7 @@ public class Tipo implements ValueObject<String> {
     private final String tipo;
 
     public Tipo(String tipo) {
-        Objects.requireNonNull(tipo);
+
         this.tipo = tipo;
     }
 
