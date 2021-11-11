@@ -33,6 +33,9 @@ public class CrearJuegoUseCase implements Function<CrearJuego, List<DomainEvent>
         System.out.println(crearJuego.getJugadores().size() + " " + crearJuego.getKilometros());
        generadorDeCarriles(crearJuego.getJugadores().size(), crearJuego.getKilometros(), crearJuego.getJuegoId());
         var juego = new Juego(crearJuego.getJuegoId(), new Pista(crearJuego.getJuegoId(), carrilIDS, crearJuego.getKilometros()));
+        crearJuego.getJugadores().forEach((key, value) -> {
+            juego.crearJugador(key,value );
+        });
         return juego.getUncommittedChanges();
     }
 

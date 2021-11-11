@@ -30,4 +30,8 @@ public class CarrilCreado extends DomainEvent {
     public boolean getEstado() {
         return estado;
     }
+
+    public Integer getLongitudCarrilMetros() {
+        return longitudCarrilMetros;
+    }
 }
