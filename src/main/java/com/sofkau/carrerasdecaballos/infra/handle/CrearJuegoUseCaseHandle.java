@@ -15,11 +15,11 @@ public class CrearJuegoUseCaseHandle extends UseCaseHandle {
         this.crearJuegoUseCase = crearJuegoUseCase;
     }
 
-    @ConsumeEvent(value = "sofka.carreras.crearCarrera")
+    @ConsumeEvent(value = "sofka.carreras.crearCarrera", blocking = true)
     void consumeNoBlocking(CrearJuego command){
         var events = crearJuegoUseCase.apply(command);
-        command.setJuegoID(command.getJuegoID());
-        System.out.println(command.getJuegoID());
-        saveGame(command.getJuegoID(), events);
+        command.setJuegoId(command.getJuegoId());
+        System.out.println(command.getJuegoId());
+        saveGame(command.getJuegoId(), events);
     }
 }

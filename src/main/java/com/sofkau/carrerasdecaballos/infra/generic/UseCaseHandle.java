@@ -23,9 +23,10 @@ public abstract class UseCaseHandle {
     public void saveGame(String gameId, List<DomainEvent> events) {
         events.stream().map(event -> {
             String eventBody = EventSerializer.instance().serialize(event);
+            System.out.println("sigo invito pero al parecer no hago ni mierda");
             return new StoredEvent(event.getClass().getTypeName(), new Date(), eventBody);
         }).forEach(storedEvent -> repository.saveEvent("game", gameId, storedEvent));
-
+        System.out.printf("toy vivo");
         events.forEach(messageService::send);
     }
 }

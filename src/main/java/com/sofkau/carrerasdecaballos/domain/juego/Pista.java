@@ -1,7 +1,6 @@
 package com.sofkau.carrerasdecaballos.domain.juego;
 
 
-
 import java.util.Set;
 
 public class Pista {
@@ -13,6 +12,10 @@ public class Pista {
         this.pistaID = pistaID;
         this.carrilesID = carrilesID;
         this.kilometros = kilometros;
+    }
+
+    public String pistaID() {
+        return pistaID;
     }
 
     public Set<String> obtenerCarriles() {

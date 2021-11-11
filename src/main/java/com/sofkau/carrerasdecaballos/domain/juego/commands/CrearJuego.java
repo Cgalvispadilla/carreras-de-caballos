@@ -6,24 +6,25 @@ import com.sofkau.carrerasdecaballos.domain.generic.Command;
 import java.util.Map;
 
 public class CrearJuego extends Command {
-    private String juegoID;
+    private String juegoId;
     private Integer kilometros;
     private Map<String, String> jugadores;
 
     public CrearJuego() {
     }
 
-    public CrearJuego(Integer kilometros, Map<String, String> jugadores) {
+    public CrearJuego(String juegoID,Integer kilometros, Map<String,String> jugadores) {
         this.kilometros = kilometros;
         this.jugadores = jugadores;
+        this.juegoId =juegoID;
     }
 
-    public String getJuegoID() {
-        return juegoID;
+    public String getJuegoId() {
+        return juegoId;
     }
 
-    public void setJuegoID(String juegoID) {
-        this.juegoID = juegoID;
+    public void setJuegoId(String juegoId) {
+        this.juegoId = juegoId;
     }
 
     public Integer getKilometros() {
@@ -38,7 +39,7 @@ public class CrearJuego extends Command {
         return jugadores;
     }
 
-    public void setJugadores(Map<String, String> jugadores) {
+    public void setJugadores(Map<String,String> jugadores) {
         this.jugadores = jugadores;
     }
 }

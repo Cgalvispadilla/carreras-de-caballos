@@ -17,9 +17,9 @@ public class Juego extends AggregateRoot implements EventChange {
     protected Podio podio;
     protected boolean juegoActivo;
 
-    public Juego(String juegoID, Pista pista, Map<String, Jugador> jugadores) {
+    public Juego(String juegoID, Pista pista) {
         super(juegoID);
-        appendChange(new JuegoCreado(pista, jugadores)).apply();
+        appendChange(new JuegoCreado(pista)).apply();
     }
 
     private Juego(String juegoID) {
@@ -33,7 +33,9 @@ public class Juego extends AggregateRoot implements EventChange {
         return juego;
     }
 
-
+    public void crearJugador(String id, String name) {
+        appendChange(new JugadorCreado(id, name)).apply();
+    }
 
     public void iniciarJuego() {
         appendChange(new JuegoIniciado()).apply();

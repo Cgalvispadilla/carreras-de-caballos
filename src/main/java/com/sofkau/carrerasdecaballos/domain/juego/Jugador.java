@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Jugador  {
 
-    protected final String jugadorID;
+    protected  String jugadorID;
     protected String nombre;
 
     public Jugador(String jugadorID, String nombre) {

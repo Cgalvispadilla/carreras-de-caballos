@@ -18,19 +18,29 @@ public class ProgramHandle {
     }
 
 
-    @ConsumeEvent(value = "juego.jugardorcreado")
+    @ConsumeEvent(value = "juego.juegocreado")
     void consumeProgramCreated(JuegoCreado event) {
         Map<String, Object> document = new HashMap<>();
+        Map<String, Object> pista = new HashMap<>();
+        pista.put("pistaID", event.getPista().pistaID());
+        pista.put("kilometros",event.getPista().obtenerKilometros());
+        pista.put("carrilesID",event.getPista().obtenerCarriles());
         document.put("_id", event.getAggregateId());
-        document.put("pista", event.getPista());
+        document.put("pista", pista);
 
         mongoClient.getDatabase("queries")
                 .getCollection("game")
                 .insertOne(new Document(document));
     }
 
+   /* @ConsumeEvent(value = "juego.juegocreado")
+    void consumeProgramCreatedForCreateGamer(JuegoCreado event) {
+        Map<String, Object> document = new HashMap<>();
+        Document = event.
+    }*/
+
     @ConsumeEvent(value = "juego.JugadorCreado")
-    void consumePlayerCreated(JugadorCreado event){
+    void consumePlayerCreated(JugadorCreado event) {
         BasicDBObject basicDBObject = new BasicDBObject();
 
     }
