@@ -2,7 +2,7 @@ package com.sofkau.carrerasdecaballos.domain.juego.commands;
 
 
 import com.sofkau.carrerasdecaballos.domain.generic.Command;
-import com.sofkau.carrerasdecaballos.domain.juego.values.Podio;
+import com.sofkau.carrerasdecaballos.domain.juego.Podio;
 
 public class FinalizarJuego extends Command {
     private Podio podio;

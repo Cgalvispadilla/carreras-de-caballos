@@ -1,7 +1,9 @@
 package com.sofkau.carrerasdecaballos.infra.materialize;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
 import com.sofkau.carrerasdecaballos.domain.juego.events.JuegoCreado;
+import com.sofkau.carrerasdecaballos.domain.juego.events.JugadorCreado;
 import io.quarkus.vertx.ConsumeEvent;
 import org.bson.Document;
 
@@ -25,5 +27,11 @@ public class ProgramHandle {
         mongoClient.getDatabase("queries")
                 .getCollection("game")
                 .insertOne(new Document(document));
+    }
+
+    @ConsumeEvent(value = "juego.JugadorCreado")
+    void consumePlayerCreated(JugadorCreado event){
+        BasicDBObject basicDBObject = new BasicDBObject();
+
     }
 }

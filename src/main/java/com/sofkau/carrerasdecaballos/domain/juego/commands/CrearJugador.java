@@ -2,31 +2,29 @@ package com.sofkau.carrerasdecaballos.domain.juego.commands;
 
 
 import com.sofkau.carrerasdecaballos.domain.generic.Command;
-import com.sofkau.carrerasdecaballos.domain.juego.values.JugadorID;
-import com.sofkau.carrerasdecaballos.domain.juego.values.Nombre;
 
 public class CrearJugador extends Command {
-    private JugadorID entityId;
-    private Nombre nombre;
+    private String jugadorID;
+    private String nombre;
 
-    public CrearJugador(JugadorID entityId, Nombre nombre) {
-        this.entityId = entityId;
+    public CrearJugador(String jugadorID, String nombre) {
+        this.jugadorID = jugadorID;
         this.nombre = nombre;
     }
 
-    public JugadorID getEntityId() {
-        return entityId;
+    public String getJugadorID() {
+        return jugadorID;
     }
 
-    public void setEntityId(JugadorID entityId) {
-        this.entityId = entityId;
+    public void setJugadorID(String jugadorID) {
+        this.jugadorID = jugadorID;
     }
 
-    public Nombre getNombre() {
+    public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(Nombre nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 }

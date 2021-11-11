@@ -1,36 +1,33 @@
 package com.sofkau.carrerasdecaballos.domain.juego;
 
 
-import com.sofkau.carrerasdecaballos.domain.carril.values.CarrilID;
-import com.sofkau.carrerasdecaballos.domain.generic.Entity;
-import com.sofkau.carrerasdecaballos.domain.juego.values.Kilometros;
-import com.sofkau.carrerasdecaballos.domain.juego.values.PistaID;
 
 import java.util.Set;
 
-public class Pista extends Entity<PistaID> {
-    protected Set<CarrilID> carriles;
-    protected Kilometros kilometros;
+public class Pista {
+    protected String pistaID;
+    protected Set<String> carrilesID;
+    protected int kilometros;
 
-    public Pista(PistaID entityId, Set<CarrilID> carriles, Kilometros kilometros) {
-        super(entityId);
-        this.carriles = carriles;
+    public Pista(String pistaID, Set<String> carrilesID, int kilometros) {
+        this.pistaID = pistaID;
+        this.carrilesID = carrilesID;
         this.kilometros = kilometros;
     }
 
-    public Set<CarrilID> obtenerCarriles() {
-        return carriles;
+    public Set<String> obtenerCarriles() {
+        return carrilesID;
     }
 
-    public void asignarCarriles(Set<CarrilID> carriles) {
-        this.carriles = carriles;
+    public void asignarCarriles(Set<String> carriles) {
+        this.carrilesID = carriles;
     }
 
-    public Kilometros obtenerKilometros() {
+    public int obtenerKilometros() {
         return kilometros;
     }
 
-    public void asignarKilometros(Kilometros kilometros) {
+    public void asignarKilometros(int kilometros) {
         this.kilometros = kilometros;
     }
 }

@@ -2,17 +2,15 @@ package com.sofkau.carrerasdecaballos.domain.carril.commands;
 
 
 import com.sofkau.carrerasdecaballos.domain.carril.Caballo;
-import com.sofkau.carrerasdecaballos.domain.carril.values.Estado;
 import com.sofkau.carrerasdecaballos.domain.generic.Command;
-import com.sofkau.carrerasdecaballos.domain.juego.values.JuegoID;
 
 public class CrearCarril extends Command {
     private Caballo caballo;
-    private JuegoID juegoID;
-    private Estado estado;
+    private String juegoID;
+    private boolean estado;
     private Integer longitudCarrilMetros;
 
-    public CrearCarril(Caballo caballo, JuegoID juegoID, Estado estado, Integer longitudCarrilMetros) {
+    public CrearCarril(Caballo caballo, String juegoID, boolean estado, Integer longitudCarrilMetros) {
         this.caballo = caballo;
         this.juegoID = juegoID;
         this.estado = estado;
@@ -23,11 +21,11 @@ public class CrearCarril extends Command {
         return caballo;
     }
 
-    public JuegoID getJuegoID() {
+    public String getJuegoID() {
         return juegoID;
     }
 
-    public Estado getEstado() {
+    public boolean getEstado() {
         return estado;
     }
 
@@ -35,11 +33,11 @@ public class CrearCarril extends Command {
         this.caballo = caballo;
     }
 
-    public void setJuegoID(JuegoID juegoID) {
+    public void setJuegoID(String juegoID) {
         this.juegoID = juegoID;
     }
 
-    public void setEstado(Estado estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
 }

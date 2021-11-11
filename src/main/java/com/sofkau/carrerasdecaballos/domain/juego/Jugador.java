@@ -1,23 +1,24 @@
 package com.sofkau.carrerasdecaballos.domain.juego;
 
 
-import com.sofkau.carrerasdecaballos.domain.generic.Entity;
-import com.sofkau.carrerasdecaballos.domain.juego.values.JugadorID;
-import com.sofkau.carrerasdecaballos.domain.juego.values.Nombre;
 
-public class Jugador extends Entity<JugadorID> {
-    protected Nombre nombre;
+import java.util.Objects;
 
-    public Jugador(JugadorID entityId, Nombre nombre) {
-        super(entityId);
+public class Jugador  {
+
+    protected final String jugadorID;
+    protected String nombre;
+
+    public Jugador(String jugadorID, String nombre) {
+        this.jugadorID = Objects.requireNonNull(jugadorID);
         this.nombre = nombre;
     }
 
-    public Nombre verNombre() {
+    public String verNombre() {
         return nombre;
     }
 
-    public void asignarNombre(Nombre nombre) {
+    public void asignarNombre(String nombre) {
         this.nombre = nombre;
     }
 }

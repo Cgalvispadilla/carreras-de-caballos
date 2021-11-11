@@ -2,7 +2,7 @@ package com.sofkau.carrerasdecaballos.domain.juego.events;
 
 
 import com.sofkau.carrerasdecaballos.domain.generic.DomainEvent;
-import com.sofkau.carrerasdecaballos.domain.juego.values.Podio;
+import com.sofkau.carrerasdecaballos.domain.juego.Podio;
 
 public class JuegoFinalizado extends DomainEvent {
     private final Podio podio;

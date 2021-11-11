@@ -4,8 +4,6 @@ package com.sofkau.carrerasdecaballos.domain.juego;
 
 import com.sofkau.carrerasdecaballos.domain.generic.EventChange;
 import com.sofkau.carrerasdecaballos.domain.juego.events.*;
-import com.sofkau.carrerasdecaballos.domain.juego.values.JuegoActivo;
-import com.sofkau.carrerasdecaballos.domain.juego.values.Podio;
 
 import java.util.HashMap;
 
@@ -13,7 +11,7 @@ public class JuegoEventChange implements EventChange {
     public JuegoEventChange(Juego juego) {
         listener((JuegoCreado event)->{
             juego.pista = event.getPista();
-            juego.juegoActivo = new JuegoActivo(Boolean.FALSE);
+            juego.juegoActivo = false;
             juego.jugadores = new HashMap<>();
             juego.podio = new Podio();
         });
@@ -21,31 +19,31 @@ public class JuegoEventChange implements EventChange {
             juego.jugadores.put(event.getEntityId(), new Jugador(event.getEntityId(), event.getNombre()));
         });
         listener((JuegoIniciado event) -> {
-            juego.juegoActivo = new JuegoActivo(Boolean.TRUE);
+            juego.juegoActivo = true;
         });
         listener((JuegoFinalizado event) -> {
-            juego.juegoActivo = new JuegoActivo(Boolean.FALSE);
+            juego.juegoActivo = false;
         });
         listener((PrimerLugarAsignado event) -> {
-            if (juego.juegoActivo.value()) {
+            if (juego.juegoActivo) {
                 Jugador jugadorGanador = juego.jugadores.get(event.getJugadorId());
-                juego.podio = juego.podio.asignarPrimerLugar(jugadorGanador);
+                juego.podio.setFirstPlace(jugadorGanador);
             } else {
                 throw new IllegalArgumentException("No puede asignar al podio no esta en marcha el juego");
             }
         });
         listener((SegundoLugarAsignado event) -> {
-            if (juego.juegoActivo.value()) {
+            if (juego.juegoActivo) {
                 Jugador jugadorGanador = juego.jugadores.get(event.getJugadorId());
-                juego.podio = juego.podio.asignarSegundoLugar(jugadorGanador);
+                juego.podio.setSecondPlace(jugadorGanador.verNombre());
             } else {
                 throw new IllegalArgumentException("No puede asignar al podio no esta en marcha el juego");
             }
         });
         listener((TercerLugarAsignado event) -> {
-            if (juego.juegoActivo.value()) {
+            if (juego.juegoActivo) {
                 Jugador jugadorGanador = juego.jugadores.get(event.getJugadorId());
-                juego.podio = juego.podio.asignarTercerLugar(jugadorGanador);
+                juego.podio.setThirdPlace(jugadorGanador.verNombre());
             } else {
                 throw new IllegalArgumentException("No puede asignar al podio no esta en marcha el juego");
             }

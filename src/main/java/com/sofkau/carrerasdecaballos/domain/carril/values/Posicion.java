@@ -1,10 +1,6 @@
 package com.sofkau.carrerasdecaballos.domain.carril.values;
 
-
-import com.sofkau.carrerasdecaballos.domain.generic.ValueObject;
-
-public class Posicion implements ValueObject<Posicion.Props> {
-
+public class Posicion {
     private final Integer posActual;
     private final Integer meta;
 
@@ -19,24 +15,14 @@ public class Posicion implements ValueObject<Posicion.Props> {
         }
     }
 
-    @Override
-    public Props value() {
-        return new Props() {
-            @Override
-            public Integer actual() {
-                return posActual;
-            }
 
-            @Override
-            public Integer meta() {
-                return meta;
-            }
-        };
+    public Integer getMeta() {
+        return meta;
     }
 
-    public interface Props {
-        Integer actual();
-
-        Integer meta();
+    public Integer getPosActual() {
+        return posActual;
     }
+
+
 }

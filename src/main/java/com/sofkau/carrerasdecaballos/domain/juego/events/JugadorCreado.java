@@ -2,24 +2,22 @@ package com.sofkau.carrerasdecaballos.domain.juego.events;
 
 
 import com.sofkau.carrerasdecaballos.domain.generic.DomainEvent;
-import com.sofkau.carrerasdecaballos.domain.juego.values.JugadorID;
-import com.sofkau.carrerasdecaballos.domain.juego.values.Nombre;
 
 public class JugadorCreado extends DomainEvent {
-    private final JugadorID entityId;
-    private final Nombre nombre;
+    private final String jugadorID;
+    private final String nombre;
 
-    public JugadorCreado(JugadorID entityId, Nombre nombre) {
+    public JugadorCreado(String jugadorID, String nombre) {
         super("juego.jugardorcreado");
-        this.entityId = entityId;
+        this.jugadorID = jugadorID;
         this.nombre = nombre;
     }
 
-    public JugadorID getEntityId() {
-        return entityId;
+    public String getEntityId() {
+        return jugadorID;
     }
 
-    public Nombre getNombre() {
+    public String getNombre() {
         return nombre;
     }
 }

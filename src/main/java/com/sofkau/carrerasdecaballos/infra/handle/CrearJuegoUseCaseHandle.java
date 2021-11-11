@@ -2,7 +2,6 @@ package com.sofkau.carrerasdecaballos.infra.handle;
 
 import com.sofkau.carrerasdecaballos.application.usecases.CrearJuegoUseCase;
 import com.sofkau.carrerasdecaballos.domain.juego.commands.CrearJuego;
-import com.sofkau.carrerasdecaballos.domain.juego.values.JuegoID;
 import com.sofkau.carrerasdecaballos.infra.generic.UseCaseHandle;
 import io.quarkus.vertx.ConsumeEvent;
 
@@ -19,8 +18,8 @@ public class CrearJuegoUseCaseHandle extends UseCaseHandle {
     @ConsumeEvent(value = "sofka.carreras.crearCarrera")
     void consumeNoBlocking(CrearJuego command){
         var events = crearJuegoUseCase.apply(command);
-        command.setJuegoID(new JuegoID());
-        System.out.println(command.getJuegoID().value());
-        saveGame(command.getJuegoID().value(), events);
+        command.setJuegoID(command.getJuegoID());
+        System.out.println(command.getJuegoID());
+        saveGame(command.getJuegoID(), events);
     }
 }

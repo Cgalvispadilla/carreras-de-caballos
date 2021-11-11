@@ -1,27 +1,28 @@
 package com.sofkau.carrerasdecaballos.domain.carril;
 
 
-import com.sofkau.carrerasdecaballos.domain.carril.values.CaballoID;
-import com.sofkau.carrerasdecaballos.domain.carril.values.Jinete;
-import com.sofkau.carrerasdecaballos.domain.carril.values.Tipo;
-import com.sofkau.carrerasdecaballos.domain.generic.Entity;
 
-public class Caballo extends Entity<CaballoID> {
+public class Caballo  {
 
-    protected Tipo tipo;
-    protected Jinete jinete;
+    protected String caballoID;
+    protected String tipo;
+    protected String jinete;
 
-    public Caballo(CaballoID entityId, Tipo tipo, Jinete jinete) {
-        super(entityId);
+    public Caballo(String caballoID, String tipo, String jinete) {
+        this.caballoID = caballoID;
         this.tipo = tipo;
         this.jinete = jinete;
     }
 
-    public Tipo tipo() {
+    public String getCaballoID() {
+        return caballoID;
+    }
+
+    public String getTipo() {
         return tipo;
     }
 
-    public Jinete jinete() {
+    public String getJinete() {
         return jinete;
     }
 }

@@ -8,7 +8,6 @@ import com.sofkau.carrerasdecaballos.domain.generic.DomainEvent;
 import com.sofkau.carrerasdecaballos.domain.juego.Juego;
 import com.sofkau.carrerasdecaballos.domain.juego.Pista;
 import com.sofkau.carrerasdecaballos.domain.juego.commands.CrearJuego;
-import com.sofkau.carrerasdecaballos.domain.juego.values.*;
 
 import javax.enterprise.context.Dependent;
 import java.util.*;
@@ -17,10 +16,10 @@ import java.util.function.Function;
 @Dependent
 public class CrearJuegoUseCase implements Function<CrearJuego, List<DomainEvent>> {
     private final Set<Integer> generados = new HashSet<>();
-    private Set<CarrilID> carrilIDS = new HashSet<>();
+    private Set<String> carrilIDS = new HashSet<>();
     private final Random random = new Random();
     private final Map<Integer, String> colores;
-    private JuegoID juegoID;
+    private String juegoID;
 
     public CrearJuegoUseCase() {
         this.colores = Map.of(
@@ -35,14 +34,14 @@ public class CrearJuegoUseCase implements Function<CrearJuego, List<DomainEvent>
                 9, "#FF00FF",
                 10, "#C2C2C2"
         );
-        juegoID = new JuegoID();
+        juegoID = UUID.randomUUID().toString();
     }
 
     private void generadorDeCarriles(int cant, Integer kms) {
         if (cant > 0) {
             for (int i = 0; i < cant; i++) {
-                CarrilID id = new CarrilID();
-                new Carril(id, new Caballo(new CaballoID(), new Tipo(generarColorAleatorio()), new Jinete(String.valueOf("jugador " + (i + 1)))), juegoID, new Estado(Boolean.FALSE), new Posicion(0, (kms * 1000)), (kms * 1000));
+                String id = UUID.randomUUID().toString();
+                new Carril(id, new Caballo(UUID.randomUUID().toString(),generarColorAleatorio(), (String.valueOf("jugador " + (i + 1)))), juegoID,false, new Posicion(0, (kms * 1000)), (kms * 1000));
                 carrilIDS.add(id);
 
             }
@@ -53,10 +52,10 @@ public class CrearJuegoUseCase implements Function<CrearJuego, List<DomainEvent>
     public List<DomainEvent> apply(CrearJuego crearJuego) {
         System.out.println(crearJuego.getJugadores().size()+" "+ crearJuego.getKilometros());
         generadorDeCarriles(crearJuego.getJugadores().size(), crearJuego.getKilometros());
-        var juego = new Juego(juegoID, new Pista(new PistaID(), carrilIDS, new Kilometros(crearJuego.getKilometros())));
+        var juego = new Juego(juegoID, new Pista(crearJuego.getJuegoID(), carrilIDS, crearJuego.getKilometros()),crearJuego.getJugadores());
 
         crearJuego.getJugadores().forEach((key, value) -> {
-            juego.crearJugador(new JugadorID(), new Nombre(value));
+            juego.crearJugador(UUID.randomUUID().toString(), value);
 
         });
         return juego.getUncommittedChanges();

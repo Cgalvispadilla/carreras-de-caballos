@@ -2,13 +2,11 @@ package com.sofkau.carrerasdecaballos.domain.juego.commands;
 
 
 import com.sofkau.carrerasdecaballos.domain.generic.Command;
-import com.sofkau.carrerasdecaballos.domain.juego.values.JuegoID;
-import com.sofkau.carrerasdecaballos.domain.juego.values.Kilometros;
 
 import java.util.Map;
 
 public class CrearJuego extends Command {
-    private JuegoID juegoID;
+    private String juegoID;
     private Integer kilometros;
     private Map<String, String> jugadores;
 
@@ -20,11 +18,11 @@ public class CrearJuego extends Command {
         this.jugadores = jugadores;
     }
 
-    public JuegoID getJuegoID() {
+    public String getJuegoID() {
         return juegoID;
     }
 
-    public void setJuegoID(JuegoID juegoID) {
+    public void setJuegoID(String juegoID) {
         this.juegoID = juegoID;
     }
 
