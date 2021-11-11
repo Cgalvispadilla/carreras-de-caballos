@@ -23,7 +23,6 @@ public class CrearJuegoUseCase implements Function<CrearJuego, List<DomainEvent>
             for (int i = 0; i < cant; i++) {
                 new Carril(String.valueOf((i+1)), new Caballo(String.valueOf((i+1)), (String.valueOf("jugador " + (i + 1)))), juegoID, false, new Posicion(0, (kms * 1000)), (kms * 1000));
                 carrilIDS.add(String.valueOf((i+1)));
-
             }
         }
     }
@@ -34,8 +33,6 @@ public class CrearJuegoUseCase implements Function<CrearJuego, List<DomainEvent>
         System.out.println(crearJuego.getJugadores().size() + " " + crearJuego.getKilometros());
        generadorDeCarriles(crearJuego.getJugadores().size(), crearJuego.getKilometros(), crearJuego.getJuegoId());
         var juego = new Juego(crearJuego.getJuegoId(), new Pista(crearJuego.getJuegoId(), carrilIDS, crearJuego.getKilometros()));
-
-
         return juego.getUncommittedChanges();
     }
 
